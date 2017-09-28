@@ -53,15 +53,12 @@ class Classifier(object):
     def classify(self, raw_input: str):
         tokens = self.tokenize(raw_input)
 
-        max_probablility = float("-Inf")
-        most_likely_classification = None
-        for classification, token_counts in self.trained_data.items():
-            probability = self._calculate_probablility(classification, tokens)
-            if probability > max_probablility:
-                max_probablility = probability
-                most_likely_classification = classification
+        probability, most_likely_classification = max([
+            (self._calculate_probablility(classification, tokens), classification)
+            for classification, token_counts in self.trained_data.items()
+        ] + [(float("-Inf"), None)])
 
-        if max_probablility == Decimal("0"):
+        if probability == Decimal("0"):
             raise Exception("No classification found")
 
         return most_likely_classification
