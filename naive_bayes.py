@@ -53,7 +53,7 @@ class Classifier(object):
 
         probability, most_likely_classification = max([
             (self._calculate_probablility(classification, tokens), classification)
-            for classification, token_counts in self.trained_data.items()
+            for classification in self.trained_data.keys()
         ] + [(float("-Inf"), None)])
 
         if probability == Decimal("0"):
