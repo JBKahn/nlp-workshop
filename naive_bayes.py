@@ -37,11 +37,8 @@ class Classifier(object):
         with open(file_name, encoding="utf8") as csv_file:
             reader = csv.reader(csv_file)
             for row in reader:
-                tokenized_sentence = self.tokenize(row[1])
                 counter = category_to_token_count_map.setdefault(row[0], Counter())
-
-                for word in tokenized_sentence:
-                    counter[word] += 1
+                counter.update(self.tokenize(row[1]))
 
         return category_to_token_count_map
 
