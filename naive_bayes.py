@@ -41,12 +41,10 @@ class Classifier(object):
             reader = csv.reader(csv_file)
             for row in reader:
                 tokenized_sentence = self.tokenize(row[1])
-
-                if row[0] not in category_to_token_count_map:
-                    category_to_token_count_map[row[0]] = Counter()
+                counter = category_to_token_count_map.setdefault(row[0], Counter())
 
                 for word in tokenized_sentence:
-                    category_to_token_count_map[row[0]][word] += 1
+                    counter[word] += 1
 
         self.trained_data = category_to_token_count_map
 
